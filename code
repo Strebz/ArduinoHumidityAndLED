@@ -1,0 +1,41 @@
+#include <LiquidCrystal.h> //Import the LCD library
+#define brig 10
+LiquidCrystal lcd(12, 11, 5, 4, 3, 8);
+#include "DHT.h"
+#define DHTPIN 2
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+#define contra 9 
+
+void setup() {
+
+  lcd.begin(16, 2); 
+  pinMode(contra, OUTPUT);
+  pinMode(brig, OUTPUT); 
+  analogWrite(brig, 255);
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+   delay(10);
+
+  float humi  = dht.readHumidity();
+  float tempC = dht.readTemperature();
+  float tempF = dht.readTemperature(true);
+
+  if (isnan(humi) || isnan(tempC) || isnan(tempF)) {
+    Serial.println("Failed to read from DHT sensor!");
+  } else {
+
+      lcd.print(" Temp: " + String(tempC) + "C"); 
+  lcd.setCursor(0, 1);
+  lcd.print("Humidity: " + String(humi) + "%");
+  }
+   
+
+  
+
+  digitalWrite(contra,LOW);
+  lcd.setCursor(0, 0);
+}
