@@ -1,4 +1,4 @@
-#include <LiquidCrystal.h> //Import the LCD library
+#include <LiquidCrystal.h>
 #define brig 10
 LiquidCrystal lcd(12, 11, 5, 4, 3, 8);
 #include "DHT.h"
@@ -19,7 +19,6 @@ void setup() {
 
 void loop() {
    delay(10);
-
   float humi  = dht.readHumidity();
   float tempC = dht.readTemperature();
   float tempF = dht.readTemperature(true);
@@ -27,15 +26,10 @@ void loop() {
   if (isnan(humi) || isnan(tempC) || isnan(tempF)) {
     Serial.println("Failed to read from DHT sensor!");
   } else {
-
-      lcd.print(" Temp: " + String(tempC) + "C"); 
+      lcd.print("  Temp: " + String(tempC) + "C"); 
   lcd.setCursor(0, 1);
   lcd.print("Humidity: " + String(humi) + "%");
   }
-   
-
-  
-
   digitalWrite(contra,LOW);
   lcd.setCursor(0, 0);
 }
